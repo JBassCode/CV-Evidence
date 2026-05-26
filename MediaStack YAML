@@ -23,21 +23,21 @@ services:
       - '30050:9696'
       - '30113:8989'
     restart: always
-  prowlarr:
-    container_name: prowlarr
+  REDACTED_SERVICE_01:
+    container_name: REDACTED
     depends_on:
       - gluetun
     environment:
       - PUID=568
       - PGID=568
       - TZ=REDACTED
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/REDACTED:latest
     network_mode: service:gluetun
     restart: unless-stopped
     volumes:
-      - /mnt/Apps/Prowlarr:/config
-  qbittorrent:
-    container_name: qbittorrent
+      - /mnt/Apps/REDACTED:/config
+  REDACTED_SERVICE_02:
+    container_name: REDACTED
     depends_on:
       - gluetun
     environment:
@@ -45,40 +45,40 @@ services:
       - PGID=568
       - TZ=REDACTED
       - WEBUI_PORT=8080
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/REDACTED:latest
     network_mode: service:gluetun
     restart: unless-stopped
     volumes:
-      - /mnt/Apps/Gluetun-QbitTorrent:/config
-      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
-  radarr:
-    container_name: radarr
+      - /mnt/Apps/Gluetun-REDACTED:/config
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
+  REDACTED_SERVICE_03:
+    container_name: REDACTED
     depends_on:
       - gluetun
     environment:
       - PUID=568
       - PGID=568
       - TZ=REDACTED
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/REDACTED:latest
     network_mode: service:gluetun
     restart: unless-stopped
     volumes:
-      - /mnt/Apps/Radarr:/config
-      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
-      - /mnt/Storage_Media/JellyMedia/Movies:/movies
-  sonarr:
-    container_name: sonarr
+      - /mnt/Apps/REDACTED:/config
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
+  REDACTED_SERVICE_04:
+    container_name: REDACTED
     depends_on:
       - gluetun
     environment:
       - PUID=568
       - PGID=568
       - TZ=REDACTED
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/REDACTED:latest
     network_mode: service:gluetun
     restart: unless-stopped
     volumes:
-      - /mnt/Apps/Sonarr:/config
-      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
-      - /mnt/Storage_Media/JellyMedia/Shows:/tv
-      - /mnt/Storage_Media/JellyMedia/Anime:/anime
+      - /mnt/Apps/REDACTED:/config
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
+      - /mnt/Storage_Media/REDACTED/REDACTED:/REDACTED
