@@ -1,0 +1,84 @@
+services:
+  gluetun:
+    cap_add:
+      - NET_ADMIN
+    container_name: gluetun
+    devices:
+      - /dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=REDACTED
+      - OPENVPN_USER=REDACTED
+      - OPENVPN_PASSWORD=REDACTED
+      - SERVER_COUNTRIES=REDACTED
+      - TZ=REDACTED
+      - FIREWALL_VPN_INPUT_PORTS=
+      - DOT=on
+      - PUBLIC_DNS=enabled
+      - BLOCK_MALICIOUS=on
+      - HTTP_PROXY=off
+    image: qmcgaw/gluetun:latest
+    ports:
+      - '8080:8080'
+      - '30025:7878'
+      - '30050:9696'
+      - '30113:8989'
+    restart: always
+  prowlarr:
+    container_name: prowlarr
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=REDACTED
+    image: lscr.io/linuxserver/prowlarr:latest
+    network_mode: service:gluetun
+    restart: unless-stopped
+    volumes:
+      - /mnt/Apps/Prowlarr:/config
+  qbittorrent:
+    container_name: qbittorrent
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=REDACTED
+      - WEBUI_PORT=8080
+    image: lscr.io/linuxserver/qbittorrent:latest
+    network_mode: service:gluetun
+    restart: unless-stopped
+    volumes:
+      - /mnt/Apps/Gluetun-QbitTorrent:/config
+      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
+  radarr:
+    container_name: radarr
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=REDACTED
+    image: lscr.io/linuxserver/radarr:latest
+    network_mode: service:gluetun
+    restart: unless-stopped
+    volumes:
+      - /mnt/Apps/Radarr:/config
+      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
+      - /mnt/Storage_Media/JellyMedia/Movies:/movies
+  sonarr:
+    container_name: sonarr
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=REDACTED
+    image: lscr.io/linuxserver/sonarr:latest
+    network_mode: service:gluetun
+    restart: unless-stopped
+    volumes:
+      - /mnt/Apps/Sonarr:/config
+      - /mnt/Storage_Media/JellyMedia/Downloads:/downloads
+      - /mnt/Storage_Media/JellyMedia/Shows:/tv
+      - /mnt/Storage_Media/JellyMedia/Anime:/anime
