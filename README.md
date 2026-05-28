@@ -26,7 +26,6 @@ The application layer is managed dynamically via containers, ensuring isolated e
 | **n8n** | Workflow automation engine linking internal APIs and administrative tasks | Active |
 | **Uptime Kuma** | Real-time service monitoring and proactive incident alerting | Active |
 | **Wazuh** | Security information and event management (SIEM) | Active |
-| **Project N.O.M.A.D** | Open-source offline knowledge & local AI server cluster. Orchesrates local vector databases (Qdrant), LLMs (Ollama), and information stores (Kiwix) via Docker. Custom-engineered to run effectively within a virtualized hypervisor layer. | In Production |
 
 ---
 
