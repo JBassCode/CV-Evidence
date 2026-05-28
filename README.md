@@ -11,7 +11,7 @@ The backbone of the lab runs on a **Proxmox VE** cluster, segmenting workloads b
 * **Node 100 (TrueNAS):** Centralized storage backend managing core datasets and containerized applications.
 * **Node 102 (WazuH):** Dedicated SIEM for log aggregation, security monitoring, and endpoint audit analysis.
 * **Node 103 (WServer):** Windows Server environment for Active Directory, Group Policy testing, and identity experiments.
-* **Node 105 (N.O.M.A.D):** Open-source offline knowledge & local AI server cluster. Orchesrates local vector databases (Qdrant), LLMs (Ollama), and information stores (Kiwix) via Docker. Custom-engineered to run effectively within a virtualized hypervisor layer.
+* **Node 105 (N.O.M.A.D):** Open-source offline knowledge & local AI server cluster. Orchestrates local vector databases (Qdrant), LLMs (Ollama), and information stores (Kiwix) via Docker. Custom-engineered to run effectively within a virtualized hypervisor layer.
 
 ---
 
