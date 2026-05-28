@@ -43,3 +43,10 @@ To maintain a clean infrastructure-as-code layout, configuration examples are or
 * **Zero Trust Access:** External entry points are restricted via Nginx Proxy Manager, forcing all traffic through Authelia MFA challenges.
 * **Active Defense:** Fail2Ban monitors auth logs to dynamically drop malicious brute-force attempts before reaching app contexts.
 * **Visibility:** System events and daemon logs are forwarded securely to the Wazuh SIEM collector for threat detection.
+
+
+
+
+## Licence
+This work is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+© 2026 JBassCode. All rights reserved.
