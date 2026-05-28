@@ -1,0 +1,284 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -768,
+        208
+      ],
+      "id": "72cb9a11-89a0-469d-b34f-3806ef6d6445"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_SOURCE_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SOURCE_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "name": "Get Recent Messages",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        208
+      ],
+      "id": "4889458b-326b-41f0-95e0-a9e0a4329008",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ JSON.stringify($json.reactions) }}"
+            }
+          ]
+        }
+      },
+      "name": "IF reaction found",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        208
+      ],
+      "id": "14c23bed-0cd8-4e36-890e-356a5075a3e9"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_DESTINATION_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_DESTINATION_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "content": "={{ $json.content }} has been completed",
+        "options": {}
+      },
+      "name": "Send Message Content",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        -112
+      ],
+      "id": "f42d5f8a-5ee0-4c94-9784-883764b6fc26",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_SOURCE_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SOURCE_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "messageId": "={{$json.id}}"
+      },
+      "name": "Delete Original Message",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        64
+      ],
+      "id": "d67be9b5-fb79-4574-863a-4d417fac76c6",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e440cb6e-bdc0-49c0-8c66-6c740e8c8e31",
+              "leftValue": "={{ $json.reactions[0].emoji.name }}",
+              "rightValue": "={{ $json.reactions[0].emoji.name }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        16,
+        336
+      ],
+      "id": "e5576b82-2e9f-4080-b90f-0a147981e6a8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_SOURCE_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SOURCE_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "messageId": "={{$json.id}}"
+      },
+      "name": "Delete Original Message1",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        192,
+        240
+      ],
+      "id": "07881460-2b6f-4866-b7bd-11505d3fa6a7",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Recent Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Recent Messages": {
+      "main": [
+        [
+          {
+            "node": "IF reaction found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF reaction found": {
+      "main": [
+        [
+          {
+            "node": "Send Message Content",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Delete Original Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Delete Original Message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REDACTED_N8N_INSTANCE_ID"
+  }
+}
