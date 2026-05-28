@@ -1,0 +1,338 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -736,
+        -368
+      ],
+      "id": "60a0bed8-66ee-4573-9735-8afa0e7910cd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "fileSelector": "/AVLogs/*",
+        "options": {
+          "fileName": ""
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -368
+      ],
+      "id": "de3ab31f-ad67-4901-918f-5827ec9151e3",
+      "name": "Read/Write Files from Disk",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "aac0db51-4e04-42ef-afc2-866dd828b200",
+              "leftValue": "={{ $json.infected_files }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        256,
+        -352
+      ],
+      "id": "4c8e970c-d513-4a80-9324-3b55f1790a02",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "binaryPropertyName": "=data",
+        "destinationKey": "logContent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -416,
+        -368
+      ],
+      "id": "4298898e-912b-456c-90d4-f7e80ff70637",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.logContent;\n\n// Define the keys we want to find\nconst stats = {\n  known_viruses: /Known viruses: (\\d+)/,\n  scan_date: /Data read:.*\\nTime:.*\\nStart Date: (.*)/, \n  scan_time_seconds: /Time: ([\\d.]+) sec/,\n  engine_version: /Engine version: ([\\d.]+)/,\n  scanned_directories: /Scanned directories: (\\d+)/,\n  scanned_files: /Scanned files: (\\d+)/,\n  infected_files: /Infected files: (\\d+)/,\n  data_scanned_mb: /Data scanned: ([\\d.]+) MB/\n};\n\nlet result = {};\n\n// Loop through each regex and extract the value\nfor (const [key, regex] of Object.entries(stats)) {\n  const match = text.match(regex);\n  result[key] = match ? (isNaN(match[1]) ? match[1] : parseFloat(match[1])) : null;\n}\n\nreturn { json: result };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        -368
+      ],
+      "id": "8a4987c2-f8a0-4741-84e5-5e13328de814",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "content": "=ClamAV Scan completed, No Infected Files Found!\nFiles Scanned: {{ $json.scanned_files }}\nTotal Infected Files: {{ $json.infected_files }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        640,
+        -464
+      ],
+      "id": "4500d5c2-c3c8-428b-930d-482058599839",
+      "name": "Send a message",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_GUILD_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_SERVER_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "REDACTED_DISCORD_CHANNEL_ID",
+          "mode": "list",
+          "cachedResultName": "REDACTED_CHANNEL_NAME",
+          "cachedResultUrl": "https://discord.com/channels/REDACTED"
+        },
+        "content": "=ClamAV Scan completed, Infected Files Have Been Found!\nFiles Scanned: {{ $json.scanned_files }}\nTotal Infected Files: {{ $json.infected_files }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        672,
+        -272
+      ],
+      "id": "e8e5e548-c961-4631-ae7d-e275ce21e8c2",
+      "name": "Send a message1",
+      "webhookId": "REDACTED_WEBHOOK_UUID",
+      "credentials": {
+        "discordBotApi": {
+          "id": "REDACTED_CREDENTIAL_STRING",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "=",
+        "binaryPropertyName": "=",
+        "options": {
+          "fileName": "=ClamAV_{{ $('Code in JavaScript').item.json.scan_date }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        -112
+      ],
+      "id": "1b1bfbfb-e614-4a13-9ae1-f2364ba8df3b",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/AVLogs/ClamAV{{ $('Code in JavaScript').item.json.scan_date }}",
+        "dataPropertyName": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        688,
+        -80
+      ],
+      "id": "c06e12ce-5e67-47d6-a671-58a6412cfeef",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "65a8f054-9b01-467a-8c74-284b40b8751b",
+              "name": "=Scan Results from ClamAV on {{ $json.scan_date }}\nScan Took: {{ $json.scan_time_seconds }} seconds\nDirectories Scanned: {{ $json.scanned_directories }}\nFiles Scanned: {{ $json.scanned_files }}\nInfected Files Found: {{ $json.infected_files }}",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        -176
+      ],
+      "id": "2e1f1cdd-0fbb-4192-a22f-84de35d39aaa",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        []
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REDACTED_N8N_INSTANCE_ID"
+  }
+}
