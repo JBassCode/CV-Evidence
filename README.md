@@ -33,8 +33,9 @@ The application layer is managed dynamically via containers, ensuring isolated e
 To maintain a clean infrastructure-as-code layout, configuration examples are organized into the following directories:
 
 * `/docker-compose/` - Sanitized YAML deployment files for core TrueNAS apps (Authelia, Nginx Proxy Manager, n8n).
-* `/nginx-templates/` - Advanced proxy configurations showcasing secure headers and Authelia middleware integrations.
+* `/SIEM/` - Security information and event management XML.
 * `/scripts/` - Custom automation scripts.
+* `/Screenshots/` - Curated interface screenshots detailing structural service layouts and operational monitoring panels.
 
 ---
 
