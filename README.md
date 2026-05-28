@@ -47,6 +47,6 @@ To maintain a clean infrastructure-as-code layout, configuration examples are or
 
 
 
-## Licence
-This work is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
-© 2026 JBassCode. All rights reserved.
+© 2026 JBassCode. This repository is public for portfolio 
+viewing purposes only. No part may be reproduced, reused, 
+or redistributed without explicit written permission.
